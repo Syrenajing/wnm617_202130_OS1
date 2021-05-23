@@ -35,7 +35,7 @@ const makeMarkers = (map_el,map_locs) => {
          position: o,
          map: map,
          icon: {
-            url:"img/icon/marker.png",
+            url: o.icon,
             scaledSize: {
                width:40,
                height:40
@@ -91,6 +91,16 @@ const setMapBounds = (map_el,map_locs) => {
 
 let mapStyles = [
     {
+        "stylers": [
+            {
+                "hue": "#2c3e50"
+            },
+            {
+                "saturation": 250
+            }
+        ]
+    },
+    {
         "featureType": "road",
         "elementType": "geometry",
         "stylers": [
@@ -98,23 +108,7 @@ let mapStyles = [
                 "lightness": 50
             },
             {
-                "color": "#f0eead"
-            },
-            {
                 "visibility": "simplified"
-            }
-        ]
-    },
-
-    {
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#e5f1f2"
-            },
-            {
-                "visibility": "on"
             }
         ]
     },
@@ -124,15 +118,6 @@ let mapStyles = [
         "stylers": [
             {
                 "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                 "color": "#E9B0B9"
             }
         ]
     }

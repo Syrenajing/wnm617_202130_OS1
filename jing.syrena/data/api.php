@@ -63,7 +63,6 @@ function makeUpload($file,$folder) {
 
 
 
-
 function makeStatement($data) {
    $c = makeConn();
    $t = $data->type;
@@ -73,7 +72,7 @@ function makeStatement($data) {
       case "users_all":
          return makeQuery($c,"SELECT * FROM `track_202130_users`",$p);
       case "animals_all":
-         return makeQuery($c,"SELECT * FROM `track_202130_cats`",$p);
+         return makeQuery($c,"SELECT * FROM `track_202130_animals`",$p);
       case "locations_all":
          return makeQuery($c,"SELECT * FROM `track_202130_locations`",$p);
 
@@ -81,19 +80,19 @@ function makeStatement($data) {
       case "user_by_id":
          return makeQuery($c,"SELECT * FROM `track_202130_users` WHERE id=?",$p);
       case "animal_by_id":
-         return makeQuery($c,"SELECT * FROM `track_202130_cats` WHERE id=?",$p);
+         return makeQuery($c,"SELECT * FROM `track_202130_animals` WHERE id=?",$p);
       case "location_by_id":
          return makeQuery($c,"SELECT * FROM `track_202130_locations` WHERE id=?",$p);
 
 
       case "animals_by_user_id":
-         return makeQuery($c,"SELECT * FROM `track_202130_cats` WHERE user_id=?",$p);
+         return makeQuery($c,"SELECT * FROM `track_202130_animals` WHERE user_id=?",$p);
       case "locations_by_animal_id":
          return makeQuery($c,"SELECT * FROM `track_202130_locations` WHERE animal_id=?",$p);
 
       case "recent_locations":
          return makeQuery($c,"SELECT *
-            FROM `track_202130_cats` a
+            FROM `track_202130_animals` a
             RIGHT JOIN (
                SELECT * FROM `track_202130_locations`
                ORDER BY `date_create` DESC
@@ -103,39 +102,22 @@ function makeStatement($data) {
             GROUP BY l.animal_id
             ",$p);
 
+
       case "check_signin":
          return makeQuery($c,"SELECT id FROM `track_202130_users` WHERE `username`=? AND `password`=md5(?)",$p);
+
 
       case "search_animals":
          $p = ["%$p[0]%",$p[1]];
          return makeQuery($c,"SELECT *
-            FROM `track_202130_cats`
+            FROM `track_202130_animals`
             WHERE
                `name` LIKE ? AND
                `user_id` = ?
             ",$p);
-
-      case "search_recent_animals":
-         $p = ["%$p[0]%",$p[1]];
-         return makeQuery($c,"SELECT *
-            FROM `track_202130_cats` a
-            RIGHT JOIN (
-               SELECT * FROM `track_202130_locations`
-               ORDER BY `date_create` DESC
-            ) l
-            ON a.id = l.animal_id
-            WHERE
-               a.name LIKE ? AND
-               a.user_id = ?
-
-            GROUP BY l.animal_id
-            ",$p);
-
-      
-
       case "filter_animals":
          return makeQuery($c,"SELECT *
-            FROM `track_202130_cats`
+            FROM `track_202130_animals`
             WHERE
                `$p[0]` = ? AND
                `user_id` = ?
@@ -145,7 +127,7 @@ function makeStatement($data) {
 
 
 
-     /* CRUD */
+      /* CRUD */
 
       /* INSERT STATEMENTS */
       case "insert_user":
@@ -163,7 +145,7 @@ function makeStatement($data) {
 
       case "insert_animal":
          $r = makeQuery($c,"INSERT INTO
-            `track_202130_cats`
+            `track_202130_animals`
             (`user_id`,`name`,`type`,`gender`,`description`,`img`,`date_create`)
             VALUES
             (?,?,?,?,?,'https://via.placeholder.com/500/?text=Animal',NOW())
@@ -181,6 +163,8 @@ function makeStatement($data) {
 
 
       /* UPDATE STATEMENTS */
+
+
       case "update_user_initial":
          $r = makeQuery($c,"SELECT id FROM `track_202130_users` WHERE `username`=?",[$p[0]]);
          if(count($r['result']))
@@ -195,6 +179,9 @@ function makeStatement($data) {
             WHERE `id` = ?
             ",$p,false);
          return ["result"=>"success"];
+
+
+
 
       case "update_user":
          $r = makeQuery($c,"UPDATE
@@ -225,9 +212,12 @@ function makeStatement($data) {
             ",$p,false);
          return ["result"=>"success"];
 
+
+
+
       case "update_animal":
          $r = makeQuery($c,"UPDATE
-            `track_202130_cats`
+            `track_202130_animals`
             SET
             `name` = ?,
             `type` = ?,
@@ -239,12 +229,14 @@ function makeStatement($data) {
 
       case "update_animal_image":
          $r = makeQuery($c,"UPDATE
-            `track_202130_cats`
+            `track_202130_animals`
             SET
             `img` = ?
             WHERE `id` = ?
             ",$p,false);
          return ["result"=>"success"];
+
+
 
       case "update_location":
          $r = makeQuery($c,"UPDATE
@@ -254,7 +246,7 @@ function makeStatement($data) {
             WHERE `id` = ?
             ",$p,false);
          return ["result"=>"success"];
-         
+
       case "update_location":
          $r = makeQuery($c,"UPDATE
             `track_202130_locations`
@@ -265,9 +257,10 @@ function makeStatement($data) {
          return ["result"=>"success"];
 
 
+
       // DELETE
       case "delete_animal":
-         return makeQuery($c,"DELETE FROM `track_202130_cats` WHERE `id` = ?",$p,false);
+         return makeQuery($c,"DELETE FROM `track_202130_animals` WHERE `id` = ?",$p,false);
 
       case "delete_location":
          return makeQuery($c,"DELETE FROM `track_202130_locations` WHERE `id` = ?",$p,false);
@@ -278,10 +271,15 @@ function makeStatement($data) {
    }
 }
 
+
+
+
 if(!empty($_FILES)) {
    $r = makeUpload("image","../uploads/");
    die(json_encode($r));
 }
+
+
 
 $data = json_decode(file_get_contents("php://input"));
 
