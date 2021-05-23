@@ -746,6 +746,7 @@ border-radius: 40px;
 
 .animallist {
 }
+
 .animallist-item {
   font-weight:normal;
   margin: 1em;
@@ -753,6 +754,8 @@ border-radius: 40px;
   overflow: hidden;
   box-shadow: 0 5px 10px rgb(0 0 0 / 20%);
 }
+
+
 .animallist-image img{
   width:100px;
   height:100px;

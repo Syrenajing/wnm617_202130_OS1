@@ -73,7 +73,7 @@ function makeStatement($data) {
       case "users_all":
          return makeQuery($c,"SELECT * FROM `track_202130_users`",$p);
       case "animals_all":
-         return makeQuery($c,"SELECT * FROM `track_202130_cats`",$p);
+         return makeQuery($c,"SELECT * FROM `track_202130_animals`",$p);
       case "locations_all":
          return makeQuery($c,"SELECT * FROM `track_202130_locations`",$p);
 
@@ -81,19 +81,19 @@ function makeStatement($data) {
       case "user_by_id":
          return makeQuery($c,"SELECT * FROM `track_202130_users` WHERE id=?",$p);
       case "animal_by_id":
-         return makeQuery($c,"SELECT * FROM `track_202130_cats` WHERE id=?",$p);
+         return makeQuery($c,"SELECT * FROM `track_202130_animals` WHERE id=?",$p);
       case "location_by_id":
          return makeQuery($c,"SELECT * FROM `track_202130_locations` WHERE id=?",$p);
 
 
       case "animals_by_user_id":
-         return makeQuery($c,"SELECT * FROM `track_202130_cats` WHERE user_id=?",$p);
+         return makeQuery($c,"SELECT * FROM `track_202130_animals` WHERE user_id=?",$p);
       case "locations_by_animal_id":
          return makeQuery($c,"SELECT * FROM `track_202130_locations` WHERE animal_id=?",$p);
 
       case "recent_locations":
          return makeQuery($c,"SELECT *
-            FROM `track_202130_cats` a
+            FROM `track_202130_animals` a
             RIGHT JOIN (
                SELECT * FROM `track_202130_locations`
                ORDER BY `date_create` DESC
@@ -118,7 +118,7 @@ function makeStatement($data) {
       case "search_recent_animals":
          $p = ["%$p[0]%",$p[1]];
          return makeQuery($c,"SELECT *
-            FROM `track_202130_cats` a
+            FROM `track_202130_animals` a
             RIGHT JOIN (
                SELECT * FROM `track_202130_locations`
                ORDER BY `date_create` DESC
@@ -135,7 +135,7 @@ function makeStatement($data) {
 
       case "filter_animals":
          return makeQuery($c,"SELECT *
-            FROM `track_202130_cats`
+            FROM `track_202130_animals`
             WHERE
                `$p[0]` = ? AND
                `user_id` = ?
@@ -163,7 +163,7 @@ function makeStatement($data) {
 
       case "insert_animal":
          $r = makeQuery($c,"INSERT INTO
-            `track_202130_cats`
+            `track_202130_animals`
             (`user_id`,`name`,`type`,`gender`,`description`,`img`,`date_create`)
             VALUES
             (?,?,?,?,?,'https://via.placeholder.com/500/?text=Animal',NOW())
@@ -175,7 +175,7 @@ function makeStatement($data) {
             `track_202130_locations`
             (`animal_id`,`lat`,`lng`,`description`,`photo`,`icon`,`date_create`)
             VALUES
-            (?,?,?,?,'https://via.placeholder.com/500/?text=Photo','https://via.placeholder.com/100/?text=Icon',NOW())
+            (?,?,?,?,'https://via.placeholder.com/500/?text=Photo','img/marker2.png',NOW())
             ",$p,false);
          return ["id"=>$c->lastInsertId()];
 
@@ -227,7 +227,7 @@ function makeStatement($data) {
 
       case "update_animal":
          $r = makeQuery($c,"UPDATE
-            `track_202130_cats`
+            `track_202130_animals`
             SET
             `name` = ?,
             `type` = ?,
@@ -239,7 +239,7 @@ function makeStatement($data) {
 
       case "update_animal_image":
          $r = makeQuery($c,"UPDATE
-            `track_202130_cats`
+            `track_202130_animals`
             SET
             `img` = ?
             WHERE `id` = ?
@@ -267,7 +267,7 @@ function makeStatement($data) {
 
       // DELETE
       case "delete_animal":
-         return makeQuery($c,"DELETE FROM `track_202130_cats` WHERE `id` = ?",$p,false);
+         return makeQuery($c,"DELETE FROM `track_202130_animals` WHERE `id` = ?",$p,false);
 
       case "delete_location":
          return makeQuery($c,"DELETE FROM `track_202130_locations` WHERE `id` = ?",$p,false);
