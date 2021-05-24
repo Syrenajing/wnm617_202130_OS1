@@ -109,7 +109,7 @@ function makeStatement($data) {
       case "search_animals":
          $p = ["%$p[0]%",$p[1]];
          return makeQuery($c,"SELECT *
-            FROM `track_202130_cats`
+            FROM `track_202130_animals`
             WHERE
                `name` LIKE ? AND
                `user_id` = ?

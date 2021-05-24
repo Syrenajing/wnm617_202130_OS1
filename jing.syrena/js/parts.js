@@ -4,8 +4,11 @@ const makeAnimalList = templater(o=>`
 <div class="animallist-item display-flex animal-jump" data-id="${o.id}">
    <div class="flex-none animallist-image"><img src="${o.img}" alt=""></div>
    <div class="animallist-description flex-stretch">
+      <div animallistText>
       <div class="animallist-name">${o.name}</div>
       <div class="animallist-info">${o.type}, ${o.gender}</div>
+      <div class="animallist-info2">${o.description}</div>
+      </div>
    </div>
    
 </div>
@@ -14,23 +17,50 @@ const makeAnimalList = templater(o=>`
 const makeUserProfile = o => `
 <div class="user-profile-image">
    <img src="${o.img}" alt="">
-
-   <div class="floater bottom right">
-      <a href="#user-upload-page" class="icon"><img src="img/icon/edit.png" alt=""></a>
-   </div>
 </div>
+<div class="floater right">
+      <a href="#user-upload-page" class="icon circle2-button"><img src="img/icon/edit.png" alt=""></a>
+   </div>
 <div class="user-profile-description">
+   <div class="userp">
+   <p>Name:</p>
    <div class="user-profile-name">${o.name}</div>
+   <p>Email:</p>
    <div class="user-profile-email">${o.email}</div>
+   </div>
 </div>
 `;
 
 const makeAnimalInfo = o => `
-<div class="animal-name">${o.name}</div>
-<div class="animal-type">${o.type}</div>
-<div class="animal-gender">${o.gender}</div>
-<div class="animal-description">${o.description}</div>
+<div class="overscroll">
+
+<div class="animalInfo">
+<p>Name:</p>
+<div class="animaldetail animal-name">${o.name}</div>
+<div>
+
+<div class="animalInfo">
+<p>Type:</p>
+<div class="animaldetail animal-type">${o.type}</div>
+<div>
+
+<div class="animalInfo">
+<p>Gender:</p>
+<div class="animaldetail animal-gender">${o.gender}</div>
+<div>
+
+<div class="animalInfo">
+<p>Date:</p>
+<div class="animaldetail animal-date">${o.date_create}</div>
+<div>
+
+<div class="animalInfo">
+<p>Description:</p>
+<div class="animaldetail animal-description">${o.description}</div>
+<div>
+<br>
 <button class="form-button animal-delete" data-id="${o.id}">Delete</button>
+</div>
 `;
 
 const makeAnimalPopup = o => `
@@ -193,9 +223,6 @@ const filterList = (animals,type) => {
 const makeFilterList = (animals) => {
    return `
    <li class="filter" data-field="type" data-value="">All</li>
-   |
-   ${filterList(animals,'type')}
-   |
    ${filterList(animals,'gender')}
    `
 }
