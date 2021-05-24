@@ -113,6 +113,7 @@ li {
    box-shadow:0 0 5px rgba(0,0,0,0.2);*/
    position:relative;
    /*overflow:hidden;*/
+   z-index: 100;
 }
 
 [data-role="header2"] {
@@ -254,7 +255,7 @@ li {
     font:inherit;
     text-align:center;
     cursor:pointer;
-    color:var(--color-neutral-medium);
+    color:var(--color-neutral-dark);
 }
 .form-button:hover {
    text-decoration:none;

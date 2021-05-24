@@ -15,18 +15,21 @@ const makeAnimalList = templater(o=>`
 `);
 
 const makeUserProfile = o => `
+<div class:"overscroll">
 <div class="user-profile-image">
    <img src="${o.img}" alt="">
 </div>
 <div class="floater right">
       <a href="#user-upload-page" class="icon circle2-button"><img src="img/icon/edit.png" alt=""></a>
    </div>
-<div class="user-profile-description">
+   
+   <div class="user-profile-description">
    <div class="userp">
    <p>Name:</p>
    <div class="user-profile-name">${o.name}</div>
    <p>Email:</p>
    <div class="user-profile-email">${o.email}</div>
+   </div>
    </div>
 </div>
 `;
